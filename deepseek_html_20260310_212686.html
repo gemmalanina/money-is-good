@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>心理测试：你最擅长的赚钱方式</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #f9f3e8 0%, #fff3e0 100%);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 16px 12px 40px;
+        }
+        .test-container {
+            max-width: 420px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 36px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08), 0 8px 20px rgba(0,0,0,0.05);
+            overflow: hidden;
+            padding: 24px 20px 32px;
+            border: 1px solid rgba(255,215,175,0.3);
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: #3a2c1b;
+            margin-bottom: 8px;
+            line-height: 1.2;
+            text-align: center;
+        }
+        .subhead {
+            font-size: 15px;
+            color: #8b7a62;
+            text-align: center;
+            margin-bottom: 28px;
+            border-bottom: 1.5px dashed #e8d9c5;
+            padding-bottom: 18px;
+        }
+        .progress-area {
+            background: #f2e5d5;
+            border-radius: 60px;
+            height: 8px;
+            margin: 12px 0 20px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            background: #cfa87c;
+            width: 0%;
+            border-radius: 60px;
+            transition: width 0.3s ease;
+        }
+        .question-card {
+            display: block;
+            margin-bottom: 24px;
+        }
+        .q-num {
+            font-size: 15px;
+            font-weight: 600;
+            color: #b58b5b;
+            margin-bottom: 12px;
+            letter-spacing: 0.3px;
+        }
+        .q-text {
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1.4;
+            color: #2b241b;
+            margin-bottom: 20px;
+            padding-right: 8px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        .option-item {
+            background: white;
+            border: 1.5px solid #efdccb;
+            border-radius: 60px;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .option-item.active {
+            border-color: #cfa87c;
+            background: #fef6ed;
+            box-shadow: 0 6px 14px rgba(207,168,124,0.15);
+        }
+        .option-item .letter {
+            width: 30px;
+            height: 30px;
+            background: #f5e7db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #7a634b;
+            margin-right: 16px;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .option-item.active .letter {
+            background: #cfa87c;
+            color: white;
+        }
+        .option-item .content {
+            font-size: 16px;
+            font-weight: 500;
+            color: #3d3327;
+            line-height: 1.3;
+            flex: 1;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .btn {
+            flex: 1;
+            background: white;
+            border: 1.5px solid #e5cfbc;
+            border-radius: 60px;
+            padding: 16px 0;
+            font-weight: 600;
+            font-size: 17px;
+            color: #5f4e3a;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.15s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            background: #fcf8f3;
+        }
+        .btn-primary {
+            background: #cfa87c;
+            border-color: #cfa87c;
+            color: white;
+            box-shadow: 0 8px 18px rgba(207,168,124,0.3);
+        }
+        .btn:active {
+            transform: scale(0.97);
+        }
+        .btn:disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        .result-screen {
+            display: none;
+        }
+        .result-card {
+            background: white;
+            border-radius: 32px;
+            padding: 32px 24px;
+            margin: 16px 0;
+            box-shadow: inset 0 -3px 0 #efe1d2, 0 16px 30px -10px rgba(158, 122, 88, 0.2);
+        }
+        .result-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: #3a2c1b;
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+        .result-sub {
+            font-size: 20px;
+            font-weight: 500;
+            color: #b58b5b;
+            margin-bottom: 24px;
+            border-left: 5px solid #f0d5b8;
+            padding-left: 16px;
+        }
+        .result-desc {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #3f352b;
+            margin-bottom: 28px;
+        }
+        .suit-list {
+            background: #fcf5ed;
+            border-radius: 24px;
+            padding: 22px 20px;
+            margin-bottom: 28px;
+        }
+        .suit-list h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #2f261e;
+        }
+        .suit-list ul {
+            list-style: none;
+        }
+        .suit-list li {
+            margin-bottom: 14px;
+            padding-left: 28px;
+            position: relative;
+            font-size: 16px;
+            color: #504536;
+            line-height: 1.4;
+        }
+        .suit-list li:before {
+            content: "✨";
+            position: absolute;
+            left: 0;
+            color: #cfa87c;
+            font-size: 18px;
+        }
+        .score-badge {
+            background: #e8d9c5;
+            border-radius: 60px;
+            padding: 8px 18px;
+            display: inline-block;
+            font-weight: 600;
+            color: #4d3f2f;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        .restart-btn {
+            background: #cfa87c;
+            border: none;
+            color: white;
+            width: 100%;
+            padding: 18px 0;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 8px 18px rgba(207,168,124,0.3);
+            transition: 0.15s;
+            margin-top: 12px;
+            border: 1px solid #b58b5b;
+        }
+        .restart-btn:active {
+            transform: scale(0.97);
+        }
+        .footer-note {
+            margin-top: 24px;
+            font-size: 13px;
+            color: #ad9b86;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="test-container" id="app">
+    <!-- 动态内容由js渲染 -->
+</div>
+
+<script>
+    (function(){
+        // ---------- 题库数据 (完全按照之前提供的15题和计分表) ----------
+        const questions = [
+            { text: "当你看到“赚钱”这个词，最先想到的是什么？", options: ["自由——可以不用再看别人脸色", "安全感——能应对未来的不确定性", "成就感——证明自己价值的方式", "创造——能把想法变成现实", "游戏——像打怪升级一样有趣"] },
+            { text: "周末早上醒来，哪种状态最接近你？", options: ["立刻爬起来，觉得躺着是浪费时间", "先玩会儿手机，再慢悠悠起床", "早就计划好了今天要做什么，按计划行动", "看心情，随时准备接受朋友的邀约", "想着怎么把昨天的灵感继续完善"] },
+            { text: "面对一个全新的赚钱机会，你的第一反应是？", options: ["先研究风险有多大，会不会亏本", "立刻兴奋，想马上试一试", "观察别人做得怎么样，再决定", "分析这个模式能不能持续赚钱", "想想自己能不能做得比别人更好"] },
+            { text: "在团队合作中，你通常扮演什么角色？", options: ["领导者——负责拍板和分配任务", "执行者——能把事做得很细致", "创意者——总能有不一样的想法", "协调者——让大家相处愉快", "分析者——负责数据和风险把控"] },
+            { text: "下面哪种场景让你最有成就感？", options: ["把一堆杂乱的数据理得清清楚楚", "做出一个让周围人惊叹的作品", "说服别人接受我的观点", "帮朋友解决了实际问题", "完成一个需要耐心的复杂任务"] },
+            { text: "当需要学习新技能时，你更喜欢？", options: ["找课程系统学习，打好基础", "边做边学，在实践中摸索", "找高手请教，快速掌握关键", "看别人怎么做，自己再模仿", "自己研究，不喜欢被教"] },
+            { text: "你的消费习惯更接近以下哪种？", options: ["精打细算，每笔支出都有记录", "看到喜欢的就想买，容易冲动", "愿意为品质和体验多花钱", "能省则省，觉得花钱心疼", "投资自己身上很大方，其他方面一般"] },
+            { text: "遇到一个难题，你会？", options: ["先自己想办法，实在不行再求助", "马上找人帮忙，不喜欢一个人扛", "拆分问题，一步步解决", "换个角度看，说不定是机会", "先放一放，等有灵感再说"] },
+            { text: "你更喜欢在什么环境下工作？", options: ["安静的独处空间", "热闹的咖啡馆，有点背景音", "团队办公室，大家都在忙", "随时能走动和交流的地方", "家里，怎么舒服怎么来"] },
+            { text: "你认为赚钱最重要的是？", options: ["稳定可持续，细水长流", "爆发式增长，快速积累", "做自己喜欢的事顺便赚钱", "帮助别人解决问题获得回报", "建立自己的影响力或品牌"] },
+            { text: "如果有一笔闲钱，你会？", options: ["存银行或买理财，求稳", "投资自己学新东西", "尝试高风险高回报的项目", "和朋友合伙做点小生意", "买资产，比如房或黄金"] },
+            { text: "别人通常怎么形容你？", options: ["靠谱，交给ta的事放心", "有想法，总能想到新点子", "情商高，会来事儿", "细心，考虑得很周全", "淡定，遇到事不慌"] },
+            { text: "你对未来的收入预期是？", options: ["能稳定增长，每年多一点就好", "希望能实现财务自由", "足够支持我探索更多爱好", "能让我和家人过上有品质的生活", "能证明我的价值就行"] },
+            { text: "你更羡慕哪种人？", options: ["开个小店，岁月静好", "创业成功，公司上市", "成为行业专家，受人尊敬", "自由职业，全球旅居办公", "稳定工作，家庭美满"] },
+            { text: "如果时间可以自由支配，你会？", options: ["还是会保持规律作息", "可能日夜颠倒，但效率很高", "做更多想做的事，学更多东西", "多陪家人和朋友", "没想过，可能还是会按部就班"] }
+        ];
+
+        // 每题的分数映射表 (A→?分)  顺序与options一一对应
+        const scoreMap = [
+            [3,1,5,4,2], // 题1
+            [5,2,4,3,1], // 题2
+            [1,5,2,4,3], // 题3
+            [5,1,4,2,3], // 题4
+            [3,4,5,2,1], // 题5
+            [1,4,5,2,3], // 题6
+            [1,5,4,2,3], // 题7
+            [3,2,1,4,5], // 题8
+            [1,4,2,3,5], // 题9
+            [1,5,4,2,3], // 题10
+            [1,4,5,2,3], // 题11
+            [1,4,5,2,3], // 题12
+            [1,5,4,2,3], // 题13
+            [2,5,3,4,1], // 题14
+            [1,5,4,2,3]  // 题15
+        ];
+
+        // 结果类型定义 (区间 + 标题 + 副标题 + 描述 + 适合方式列表)
+        const resultTypes = [
+            {
+                min: 15, max: 25,
+                title: "稳健守成型",
+                sub: "适合：专业服务 · 技能变现 · 理财规划",
+                desc: "你是典型的“稳稳的幸福”型选手。不喜欢大起大落，更倾向于用一技之长换取稳定回报。你做事踏实可靠，有耐心，擅长把一件事做到极致。",
+                suits: ["专业技能变现（会计、翻译、设计、咨询等）", "考证培训，成为认证专家", "稳健理财，通过复利积累财富", "知识付费，打包专业课程"]
+            },
+            {
+                min: 26, max: 35,
+                title: "人际导向型",
+                sub: "适合：销售 · 社群运营 · 资源对接 · 服务业",
+                desc: "你天生对人敏感，擅长沟通和协调。你能敏锐察觉别人的需求，也容易获得他人信任。赚钱对你来说，很多时候是“人脉变现”的结果。",
+                suits: ["销售类工作（房产、保险、高端产品）", "社群运营，提供情感价值", "一对一服务（美业、健身、心理咨询）", "中介/经纪，资源对接赚佣金"]
+            },
+            {
+                min: 36, max: 45,
+                title: "分析策略型",
+                sub: "适合：投资 · 数据分析 · 商业咨询 · 内容创作",
+                desc: "你有敏锐的洞察力和逻辑思维，擅长从信息中发现机会。你做事有计划，不轻易被情绪左右，在复杂局面中能保持冷静。",
+                suits: ["投资理财（股票、基金、加密货币）", "数据分析/商业咨询", "深度内容创作建立专业影响力", "策略顾问、项目管理"]
+            },
+            {
+                min: 46, max: 55,
+                title: "创意驱动型",
+                sub: "适合：自媒体 · IP打造 · 产品开发 · 艺术创作",
+                desc: "你是天生的创造者，脑子里总有新点子。你讨厌重复和无聊，需要新鲜感来刺激自己。你适合把想法变成产品，用创意换取价值。",
+                suits: ["自媒体/IP打造，内容吸引粉丝", "开发实物或虚拟产品（手作、课程、APP）", "艺术创作（插画、摄影、音乐、写作）", "小众体验、定制化创新服务"]
+            },
+            {
+                min: 56, max: 75,
+                title: "创业开拓型",
+                sub: "适合：创业 · 项目管理 · 市场开拓 · 投资",
+                desc: "你是天生的冒险家和领导者。精力充沛，行动力强，喜欢挑战和竞争。你不满足于打工，渴望掌控局面，用更大的成功证明自己。",
+                suits: ["自己创业，建立团队解决市场问题", "带领复杂项目，拿项目提成", "市场开拓，挑战高难度目标", "风险投资，支持早期项目"]
+            }
+        ];
+
+        // 当前应用的状态
+        let currentIndex = 0;               // 0-14
+        let answers = new Array(15).fill(null); // 存储每道题所选选项的索引 (0~4)
+        let totalScore = 0;
+
+        // 获取容器
+        const app = document.getElementById('app');
+
+        // 渲染视图
+        function render() {
+            // 判断是否所有题都答完 => 显示结果页
+            const allAnswered = answers.every(idx => idx !== null);
+            if (allAnswered && currentIndex === questions.length) {
+                // 计算总分
+                totalScore = answers.reduce((acc, ans, idx) => acc + scoreMap[idx][ans], 0);
+                renderResultScreen();
+            } else {
+                // 保证currentIndex有效（万一直接跳到15，重置到0）
+                if (currentIndex >= questions.length) currentIndex = questions.length - 1;
+                renderQuestionScreen();
+            }
+        }
+
+        function renderQuestionScreen() {
+            const q = questions[currentIndex];
+            const selectedIdx = answers[currentIndex]; // null 或 0~4
+            const progress = ((currentIndex + 1) / questions.length) * 100;
+
+            let optionsHtml = '';
+            q.options.forEach((optText, idx) => {
+                const letter = String.fromCharCode(65 + idx); // A,B,C,D,E
+                const activeClass = (selectedIdx === idx) ? 'active' : '';
+                optionsHtml += `
+                    <div class="option-item ${activeClass}" data-opt-index="${idx}">
+                        <div class="letter">${letter}</div>
+                        <div class="content">${optText}</div>
+                    </div>
+                `;
+            });
+
+            const html = `
+                <h1>🧠 赚钱心理测试</h1>
+                <div class="subhead">15题揭秘你的财富天赋</div>
+                <div class="progress-area">
+                    <div class="progress-bar" style="width: ${progress}%;"></div>
+                </div>
+                <div class="question-card">
+                    <div class="q-num">${currentIndex+1} / ${questions.length}</div>
+                    <div class="q-text">${q.text}</div>
+                    <div class="options" id="options-container">
+                        ${optionsHtml}
+                    </div>
+                    <div class="nav-buttons">
+                        <button class="btn" id="prevBtn" ${currentIndex === 0 ? 'disabled' : ''}>◀ 上一题</button>
+                        <button class="btn btn-primary" id="nextBtn">${currentIndex === questions.length-1 ? '完成' : '下一题 ▶'}</button>
+                    </div>
+                </div>
+                <div class="footer-note">选择符合你的选项，可随时修改</div>
+            `;
+            app.innerHTML = html;
+
+            // 绑定选项点击事件
+            document.querySelectorAll('.option-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    const optIndex = parseInt(item.dataset.optIndex, 10);
+                    // 更新 answers
+                    answers[currentIndex] = optIndex;
+                    // 重新渲染当前题目（高亮变化）
+                    renderQuestionScreen(); // 简单重新渲染当前题
+                });
+            });
+
+            // 绑定上一题/下一题
+            document.getElementById('prevBtn')?.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    render();
+                }
+            });
+
+            document.getElementById('nextBtn')?.addEventListener('click', () => {
+                // 如果当前题没有选择，不允许下一题（轻提醒）
+                if (answers[currentIndex] === null) {
+                    alert('请先选择一项再继续～');
+                    return;
+                }
+                if (currentIndex < questions.length - 1) {
+                    currentIndex++;
+                    render();
+                } else {
+                    // 已经是最后一题，且点击完成，检查全部是否都已答
+                    if (answers.every(idx => idx !== null)) {
+                        currentIndex = questions.length; // 标记进入结果页
+                        render();
+                    } else {
+                        // 理论上不会进来，但以防万一
+                        alert('还有题目未选择，请返回检查');
+                    }
+                }
+            });
+        }
+
+        function renderResultScreen() {
+            // 根据总分找到对应的结果类型
+            let result = resultTypes[0]; // 默认第一个
+            for (let i = 0; i < resultTypes.length; i++) {
+                if (totalScore >= resultTypes[i].min && totalScore <= resultTypes[i].max) {
+                    result = resultTypes[i];
+                    break;
+                }
+            }
+            // 边界保护：如果分数超出最大范围，归为创业开拓型
+            if (totalScore > 75) result = resultTypes[4];
+            if (totalScore < 15) result = resultTypes[0];
+
+            // 生成适合列表li
+            const suitLis = result.suits.map(s => `<li>${s}</li>`).join('');
+
+            const html = `
+                <h1>✨ 你的测试结果</h1>
+                <div class="subhead">基于你的选择 · 总分 ${totalScore}</div>
+                <div class="result-screen" style="display:block;">
+                    <div class="result-card">
+                        <div class="score-badge">💰 得分 ${totalScore}</div>
+                        <div class="result-title">${result.title}</div>
+                        <div class="result-sub">${result.sub}</div>
+                        <div class="result-desc">${result.desc}</div>
+                        <div class="suit-list">
+                            <h3>最适合你的赚钱方式</h3>
+                            <ul>
+                                ${suitLis}
+                            </ul>
+                        </div>
+                        <button class="restart-btn" id="restartBtn">↺ 重新测试</button>
+                    </div>
+                    <div class="footer-note">结果仅供参考，你的潜力远超分类 ✨</div>
+                </div>
+            `;
+            app.innerHTML = html;
+
+            document.getElementById('restartBtn')?.addEventListener('click', () => {
+                // 重置所有状态
+                currentIndex = 0;
+                answers = new Array(15).fill(null);
+                totalScore = 0;
+                render();
+            });
+        }
+
+        // 初始化
+        render();
+    })();
+</script>
+</body>
+</html>
