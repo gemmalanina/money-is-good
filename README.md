@@ -1,0 +1,2 @@
+# money-is-good
+test
